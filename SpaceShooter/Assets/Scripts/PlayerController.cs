@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
 	public GameObject shot;
 	public Transform shotSpawn;
+	public Transform shotSpawn2;
 	public float fireRate;
 	
 	private float nextFire;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 		{
 			nextFire = Time.time + fireRate;
 			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+			Instantiate(shot, shotSpawn2.position, shotSpawn2.rotation);
 			ads.Play ();
 		}
 	}

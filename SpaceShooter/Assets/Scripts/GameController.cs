@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
 	private bool gameOver;
 	private bool restart;
 	private int score;
+	public int newSpeed=0;
 	
 	void Start ()
 	{
@@ -45,20 +46,25 @@ public class GameController : MonoBehaviour
 		yield return new WaitForSeconds (startWait);
 		while (true)
 		{
+
 			for (int i = 0; i < hazardCount; i++)
 			{
 				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
 				Quaternion spawnRotation = Quaternion.identity;
-				Instantiate (hazard, spawnPosition, spawnRotation);
-				yield return new WaitForSeconds (spawnWait);
+				GameObject  colone =Instantiate(hazard, spawnPosition, spawnRotation) as GameObject;
+				colone.GetComponent<Mover>().Speed -=newSpeed;
+			  	yield return new WaitForSeconds (spawnWait);
 			}
 			yield return new WaitForSeconds (waveWait);
 			Harder();
-			//hazard.Speed=-10;
+
+
+
 			if (gameOver)
 			{
 				restartText.text = "Press 'R' for Restart";
 				restart = true;
+			//	hazard.GetComponent<Mover>().Speed =-5;
 				break;
 			}
 		}
@@ -67,12 +73,18 @@ public class GameController : MonoBehaviour
 
 	void Harder()
 	{
-    	if (spawnWait > 0.2) {
+		if (newSpeed < 10)
+			newSpeed++;
+
+		if (spawnWait > 0.3) {
 			spawnWait -= 0.1f;
 		}
 
-    	if(waveWait>2)
-		  waveWait-=1f;
+    	if(waveWait>1)
+		  waveWait-=0.5f;
+
+		if (hazardCount < 20)
+			hazardCount++;
 	}
 
 
@@ -91,5 +103,6 @@ public class GameController : MonoBehaviour
 	{
 		gameOverText.text = "Game Over!";
 		gameOver = true;
+		newSpeed = 0;
 	}
 }

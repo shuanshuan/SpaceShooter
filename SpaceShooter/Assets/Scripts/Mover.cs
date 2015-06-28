@@ -10,6 +10,7 @@ public class Mover : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 
 		rb.velocity = transform.forward * Speed;
+		rb.angularVelocity = transform.eulerAngles*Speed;
 	}
 	
 
